@@ -7,7 +7,7 @@ class UserController extends Controller {
         $rs = $this->model->signUp($json);
         if($rs) {
             $this->flash(_LOGINUSER, $rs);
-            return [_RESULT => 1];
+            return [_RESULT => $rs];
         }
         return [_RESULT => 0];
     }
