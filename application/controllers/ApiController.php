@@ -16,12 +16,12 @@ class ApiController extends Controller {
         return $rs === false ? [] : $rs;
     }
 
-    public function productDetail() {
-        $urlPaths = getUrlPaths();
-        if(!isset($urlPaths[2])) {
-            exit();
-        }
-        $param = [ "productId" => intval($urlPaths[2]) ];
-        return [_RESULT => $this->model->productDetail($param)];
-    }
+    // public function productDetail() {
+    //     $urlPaths = getUrlPaths();
+    //     if(!isset($urlPaths[2])) {
+    //         exit();
+    //     }
+    //     $param = [ "productId" => intval($urlPaths[2]) ];
+    //     return $this->model->productDetail($param);
+    // }
 } 

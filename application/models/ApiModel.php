@@ -53,13 +53,21 @@ class ApiModel extends Model {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function productDetail(&$param) {
-        $sql = "SELECT * FROM t_product WHERE id = :productId";
+    // public function productDetail(&$param) {
+    //     $sql = "SELECT t3.*, t4.path 
+    //             FROM (  SELECT t1.*, t2.cate1, t2.cate2, t2.cate3
+    //                     FROM t_product t1
+    //                     INNER JOIN t_category t2
+    //                     ON t1.category_id = t2.id
+    //                     WHERE t1.id = :productId ) t3
+    //             LEFT JOIN ( SELECT * FROM t_product_img
+    //                         WHERE type = 1 ) t4
+    //             ON t3.id = t4.product_id";
         
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":productId", $param["productId"]);
-        $stmt->execute();
+    //     $stmt = $this->pdo->prepare($sql);
+    //     $stmt->bindValue(":productId", $param["productId"]);
+    //     $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
-    }
+    //     return $stmt->fetch(PDO::FETCH_OBJ);
+    // }
 }
