@@ -12,8 +12,8 @@ class ApiModel extends Model {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function productInsert() {
-        $sql = "INSERT INTO t_prodcut
+    public function productInsert(&$param) {
+        $sql = "INSERT INTO t_product
                 SET product_name = :product_name,
                     product_price = :product_price,
                     delivery_price = :delivery_price,
@@ -24,9 +24,16 @@ class ApiModel extends Model {
                     category_id = :category_id";
         
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue();
+        $stmt->bindValue(":product_name", $param["product_name"]);
+        $stmt->bindValue(":product_price", $param["product_price"]);
+        $stmt->bindValue(":delivery_price", $param["delivery_price"]);
+        $stmt->bindValue(":add_delivery_price", $param["add_delivery_price"]);
+        $stmt->bindValue(":tags", $param["tags"]);
+        $stmt->bindValue(":outbound_days", $param["outbound_days"]);
+        $stmt->bindValue(":seller_id", $param["seller_id"]);
+        $stmt->bindValue(":category_id", $param["category_id"]);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        return intval($this->pdo->lastInsertId());
     }
 }

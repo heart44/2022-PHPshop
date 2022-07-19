@@ -7,8 +7,7 @@ class ApiController extends Controller {
     }
 
     public function productInsert() {
-        $json = getJson();
-        print_r($json);
-        // $this->model->productInsert
+        $json = getJson();        
+        return [_RESULT => $this->model->productInsert($json)];
     }
 } 
