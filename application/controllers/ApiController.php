@@ -15,4 +15,13 @@ class ApiController extends Controller {
         $rs = $this->model->productList2();
         return $rs === false ? [] : $rs;
     }
+
+    public function productDetail() {
+        $urlPaths = getUrlPaths();
+        if(!isset($urlPaths[2])) {
+            exit();
+        }
+        $param = [ "productId" => intval($urlPaths[2]) ];
+        return [_RESULT => $this->model->productDetail($param)];
+    }
 } 

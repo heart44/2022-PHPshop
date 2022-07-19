@@ -52,4 +52,14 @@ class ApiModel extends Model {
 
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function productDetail(&$param) {
+        $sql = "SELECT * FROM t_product WHERE id = :productId";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":productId", $param["productId"]);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
