@@ -71,4 +71,29 @@ class ApiController extends Controller {
 
         return $this->model->productImageList($param);
     }
+
+    public function productImageDelete() {
+        $urlPaths = getUrlPaths();
+        if(!isset($urlPaths[2])) {
+            exit();
+        }
+
+        $rs = 0;
+        switch(getMethod()) {
+            case _DELETE:
+                $id = intval($urlPaths[2]);
+                $productId = intval($urlPaths[3]);
+                $type = intval($urlPaths[4]);
+                $path = $urlPaths[5];
+                $param = [ "product_img_id" => $id ];
+                // $aa = $this->model->productImageSelect($param);
+                // $path = _IMG_PATH . "/" . $aa->product_id . "/" . $aa->type . "/" . $aa->path;
+                $deletePath = _IMG_PATH . "/" . $productId . "/" . $type . "/" . $path;
+                unlink($deletePath);
+                $rs = $this->model->productImageDelete($param);
+                break;
+        }
+
+        return [_RESULT => $rs];
+    }
 } 
