@@ -48,13 +48,16 @@ class ApiController extends Controller {
         }
         $rs = file_put_contents($filePath, $image_base64); 
 
-        $param = [ 
-            "product_id" => $productId,
-            "type" => $type,
-            "path" => $uniqidPath
-        ];
-        $this->model->productImageInsert($param);
-        
-        return [_RESULT => 1];
+        if($rs) {
+            $param = [ 
+                "product_id" => $productId,
+                "type" => $type,
+                "path" => $uniqidPath,
+                // "path" => end(explode("/", $filePath))
+            ];
+            $this->model->productImageInsert($param);
+        }
+
+        return [_RESULT => $rs ? 1 : 0];
     }
 } 
