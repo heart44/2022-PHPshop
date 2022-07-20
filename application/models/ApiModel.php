@@ -95,4 +95,24 @@ class ApiModel extends Model {
 
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function productImageDelete(&$param) {
+        $sql = "DELETE FROM t_product_img WHERE id = :product_img_id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":product_img_id", $param["product_img_id"]);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function productImageSelect(&$param) {
+        $sql = "SELECT * FROM t_product_img WHERE id = :product_img_id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":product_img_id", $param["product_img_id"]);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
 }
