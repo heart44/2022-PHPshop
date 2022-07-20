@@ -45,7 +45,7 @@ class ApiModel extends Model {
                         ON t1.category_id = t2.id ) t3
                 LEFT JOIN ( SELECT * FROM t_product_img
                             WHERE type = 1 ) t4
-                ON t3.id = t4.id";
+                ON t3.id = t4.product_id";
         
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
