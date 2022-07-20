@@ -60,4 +60,15 @@ class ApiController extends Controller {
 
         return [_RESULT => $rs ? 1 : 0];
     }
+
+    public function productImageList() {
+        $urlPaths = getUrlPaths();
+        if(!isset($urlPaths[2])) {
+            exit();
+        }
+        $productId = intval($urlPaths[2]);
+        $param = [ "product_id" => $productId ];
+
+        return $this->model->productImageList($param);
+    }
 } 

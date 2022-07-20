@@ -85,4 +85,14 @@ class ApiModel extends Model {
 
         return $stmt->rowCount();
     }
+
+    public function productImageList(&$param) {
+        $sql = "SELECT * FROM t_product_img WHERE product_id = :product_id";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":product_id", $param["product_id"]);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
