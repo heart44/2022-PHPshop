@@ -40,13 +40,21 @@ class ApiController extends Controller {
         $image_type = $image_type_aux[1];      
         $image_base64 = base64_decode($image_parts[1]);
         $dirPath = _IMG_PATH . "/" . $productId . "/" . $type;
-        $filePath = $dirPath . "/" . uniqid() . "." . $image_type;
+        $uniqidPath = uniqid() . "." . $image_type;
+        $filePath = $dirPath . "/" . $uniqidPath;
 
         if(!is_dir($dirPath)) {
             mkdir($dirPath, 0777, true);
         }
         $rs = file_put_contents($filePath, $image_base64); 
 
+        $param = [ 
+            "product_id" => $productId,
+            "type" => $type,
+            "path" => $uniqidPath
+        ];
+        $this->model->productImageInsert($param);
+        
         return [_RESULT => 1];
     }
 } 
