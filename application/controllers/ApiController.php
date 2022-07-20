@@ -24,4 +24,17 @@ class ApiController extends Controller {
     //     $param = [ "productId" => intval($urlPaths[2]) ];
     //     return $this->model->productDetail($param);
     // }
+
+    public function upload() {
+        $urlPaths = getUrlPaths();
+        if(!isset($urlPaths[2]) || !isset($urlPaths[3])) {
+            exit();
+        }
+        $productId = intval($urlPaths[2]);
+        $type = intval($urlPaths[3]);
+        $file_tmp = $_FILES['image']['name'];
+        $data = file_get_contents($file_tmp);
+        
+        return [_RESULT => 0];
+    }
 } 
