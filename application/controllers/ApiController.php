@@ -74,7 +74,7 @@ class ApiController extends Controller {
 
     public function productImageDelete() {
         $urlPaths = getUrlPaths();
-        if(!isset($urlPaths[2])) {
+        if(count($urlPaths) !== 6) {
             exit();
         }
 
