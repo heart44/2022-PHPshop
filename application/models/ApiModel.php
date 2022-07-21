@@ -115,4 +115,18 @@ class ApiModel extends Model {
 
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
+
+    public function productDelete(&$param) {
+        $sql = "DELETE a, b  
+                FROM t_product a
+                INNER JOIN t_product_img b
+                ON a.id = b.product_id
+                WHERE a.id = :product_id";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":product_id", $param["product_id"]);
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
 }

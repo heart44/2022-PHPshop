@@ -92,4 +92,20 @@ class ApiController extends Controller {
         }
         return [_RESULT => $rs];
     }
+
+    public function productDelete() {
+        $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }
+        $productId = intval($urlPaths[2]);
+
+        $deletePath = _IMG_PATH . "/" . $productId;
+        if(rmdir_all($deletePath)) {
+            $param = [ "product_id" => $productId ];
+            $rs = $this->model->productDelete($param);
+        }
+
+        return [_RESULT => $rs ? 1 : 0];
+    }
 } 
