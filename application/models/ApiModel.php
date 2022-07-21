@@ -108,10 +108,9 @@ class ApiModel extends Model {
     }
 
     public function productImageDelete(&$param) {
-        $product_img_id = $param["product_img_id"];
-
         $sql = "DELETE FROM t_product_img WHERE ";
         if(array_key_exists("product_img_id", $param)) {
+            $product_img_id = $param["product_img_id"];
             $sql .= "id = $product_img_id";
         } else if (array_key_exists("product_id", $param)) {
             $product_id = $param["product_id"];

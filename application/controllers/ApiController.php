@@ -110,7 +110,6 @@ class ApiController extends Controller {
             $this->model->beginTransaction();
             $this->model->productImageDelete($param);
             $rs = $this->model->productDelete($param);
-            print $rs;
             if($rs === 1) {
                 rmdir_all($deletePath);
                 $this->model->commit();
