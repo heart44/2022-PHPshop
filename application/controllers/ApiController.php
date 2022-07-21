@@ -1,5 +1,6 @@
 <?php
 namespace application\controllers;
+use Exception;
 
 class ApiController extends Controller {
     public function categoryList() {
@@ -99,13 +100,25 @@ class ApiController extends Controller {
             exit();
         }
         $productId = intval($urlPaths[2]);
-
         $deletePath = _IMG_PATH . "/" . $productId;
-        if(rmdir_all($deletePath)) {
+        
+        try {
             $param = [ "product_id" => $productId ];
+            $this->model->beginTransaction();
+            $this->model->productImageDelete($param);
             $rs = $this->model->productDelete($param);
+            if($rs === 1) {
+                rmdir_all($deletePath);
+                $this->model->commit();
+            } else {
+                $this->model->rollback();
+            }
+        } catch (Exception $e) {
+            print "에러발생!!<br>";
+            print $e . "<br>";
+            $this->model->rollback();
         }
 
-        return [_RESULT => $rs ? 1 : 0];
+        return [_RESULT => $rs];
     }
 } 

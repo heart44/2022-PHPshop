@@ -97,10 +97,17 @@ class ApiModel extends Model {
     }
 
     public function productImageDelete(&$param) {
-        $sql = "DELETE FROM t_product_img WHERE id = :product_img_id";
+        $product_img_id = $param["product_img_id"];
+
+        $sql = "DELETE FROM t_product_img WHERE ";
+        if(array_key_exists("product_img_id", $param)) {
+            $sql .= "id = $product_img_id";
+        } else if (array_key_exists("product_id", $param)) {
+            $product_id = $param["product_id"];
+            $sql .= "product_id = $product_id";
+        }
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":product_img_id", $param["product_img_id"]);
         $stmt->execute();
 
         return $stmt->rowCount();
@@ -117,11 +124,7 @@ class ApiModel extends Model {
     }
 
     public function productDelete(&$param) {
-        $sql = "DELETE a, b  
-                FROM t_product a
-                INNER JOIN t_product_img b
-                ON a.id = b.product_id
-                WHERE a.id = :product_id";
+        $sql = "DELETE FROM t_product WHERE id = :product_id";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(":product_id", $param["product_id"]);
