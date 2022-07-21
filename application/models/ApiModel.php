@@ -124,15 +124,15 @@ class ApiModel extends Model {
         return $stmt->rowCount();
     }
 
-    public function productImageSelect(&$param) {
-        $sql = "SELECT * FROM t_product_img WHERE id = :product_img_id";
+    // public function productImageSelect(&$param) {
+    //     $sql = "SELECT * FROM t_product_img WHERE id = :product_img_id";
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":product_img_id", $param["product_img_id"]);
-        $stmt->execute();
+    //     $stmt = $this->pdo->prepare($sql);
+    //     $stmt->bindValue(":product_img_id", $param["product_img_id"]);
+    //     $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_OBJ);
-    }
+    //     return $stmt->fetch(PDO::FETCH_OBJ);
+    // }
 
     public function productDelete(&$param) {
         $sql = "DELETE FROM t_product WHERE id = :product_id";
@@ -142,5 +142,43 @@ class ApiModel extends Model {
         $stmt->execute();
 
         return $stmt->rowCount();
+    }
+
+    public function cate1List() {
+        $sql = "SELECT cate1 AS cate_nm FROM t_category
+                GROUP BY cate1
+                ORDER BY cate_nm";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function cate2List(&$param) {
+        $sql = "SELECT cate2 AS cate_nm FROM t_category
+                WHERE cate1 = :cate1
+                GROUP BY cate2
+                ORDER BY cate_nm";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":cate1", $param["cate1"]);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function cate3List(&$param) {
+        $sql = "SELECT id, cate3 AS cate_nm FROM t_category
+                WHERE cate1 = :cate1 AND cate2 = :cate2
+                GROUP BY id, cate3
+                ORDER BY cate_nm";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":cate1", $param["cate1"]);
+        $stmt->bindValue(":cate2", $param["cate2"]);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 }

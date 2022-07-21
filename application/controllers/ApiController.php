@@ -110,6 +110,7 @@ class ApiController extends Controller {
             $this->model->beginTransaction();
             $this->model->productImageDelete($param);
             $rs = $this->model->productDelete($param);
+            print $rs;
             if($rs === 1) {
                 rmdir_all($deletePath);
                 $this->model->commit();
@@ -123,5 +124,32 @@ class ApiController extends Controller {
         }
 
         return [_RESULT => $rs];
+    }
+
+    public function cate1List() {
+        return $this->model->cate1List();
+    }
+
+    public function cate2List() {
+        $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 3) {
+            exit();
+        }
+        $param = [ "cate1" => $urlPaths[2] ];
+
+        return $this->model->cate2List($param);
+    }
+
+    public function cate3List() {
+        $urlPaths = getUrlPaths();
+        if(count($urlPaths) !== 4) {
+            exit();
+        }
+        $param = [ 
+            "cate1" => $urlPaths[2], 
+            "cate2" => $urlPaths[3], 
+        ];
+        
+        return $this->model->cate2List($param);
     }
 } 
