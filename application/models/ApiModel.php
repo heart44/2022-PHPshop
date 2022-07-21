@@ -37,6 +37,17 @@ class ApiModel extends Model {
         return intval($this->pdo->lastInsertId());
     }
 
+    public function productList() {
+        $sql = "SELECT t1.*, t2.type, t2.path, t3.cate1, t3.cate2, t3.cate3
+                FROM t_product t1, t_product_img t2, t_category t3
+                WHERE t1.id = t2.product_id AND t2.type = 1 AND t1.category_id = t3.id";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
     public function productList2() {
         $sql = "SELECT t3.*, t4.path 
                 FROM (  SELECT t1.*, t2.cate1, t2.cate2, t2.cate3
