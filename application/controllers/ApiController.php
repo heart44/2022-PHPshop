@@ -81,15 +81,15 @@ class ApiController extends Controller {
         $rs = 0;
         switch(getMethod()) {
             case _DELETE:
-                $param = [ "product_img_id" => intval($urlPaths[2]) ];
                 // $aa = $this->model->productImageSelect($param);
                 // $path = _IMG_PATH . "/" . $aa->product_id . "/" . $aa->type . "/" . $aa->path;
                 $deletePath = _IMG_PATH . "/" . intval($urlPaths[3]) . "/" . intval($urlPaths[4]) . "/" . $urlPaths[5];
-                unlink($deletePath);
-                $rs = $this->model->productImageDelete($param);
+                if(unlink($deletePath)) {
+                    $param = [ "product_img_id" => intval($urlPaths[2]) ];
+                    $rs = $this->model->productImageDelete($param);
+                }
                 break;
         }
-
         return [_RESULT => $rs];
     }
 } 
